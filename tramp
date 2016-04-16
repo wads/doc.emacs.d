@@ -1,0 +1,40 @@
+;; -*- emacs-lisp -*- <16/04/11 17:45:21 /Users/wadslab/.emacs.d/tramp>
+;; Tramp connection history.  Don't change this file.
+;; You can delete it, forcing Tramp to reapply the checks.
+
+((["ssh" nil "SYMAX" nil nil]
+  ("uname" "Linux 3.14.33-26.47.amzn1.x86_64")
+  ("test" "test")
+  ("remote-path"
+   ("/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin"))
+  ("remote-shell" "/bin/sh")
+  ("busybox" nil)
+  ("perl-file-spec" t)
+  ("perl-cwd-realpath" t)
+  ("perl" "\\perl")
+  ("file-exists" "test -e")
+  ("readlink" "\\readlink")
+  ("stat" "\\stat")
+  ("ls" "/bin/ls --color=never")
+  ("id" "/usr/bin/id")
+  ("uid-integer" 500)
+  ("gid-integer" 500))
+ (["ssh" nil "panda-robo.xyz" nil nil]
+  nil)
+ (["ssh" "wada" "panda-robo.xyz" nil nil]
+  ("uname" "FreeBSD 10.2-RELEASE-p9")
+  ("test" "test")
+  ("remote-path"
+   ("/usr/bin" "/bin" "/usr/sbin" "/sbin" "/usr/local/bin" "/usr/local/sbin"))
+  ("remote-shell" "/bin/sh")
+  ("busybox" nil)
+  ("file-exists" "test -e")
+  ("stat" nil)
+  ("perl-file-spec" t)
+  ("perl-cwd-realpath" t)
+  ("perl" "\\perl5")
+  ("ls" "/bin/ls")
+  ("id" "/usr/bin/id")
+  ("uid-integer" 1002)
+  ("gid-integer" 1002)
+  ("readlink" nil)))
