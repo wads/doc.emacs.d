@@ -65,6 +65,7 @@
 (blink-cursor-mode 0)
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message "")
+(setq ns-pop-up-frames nil)
 
 ;;　make transparent
 (add-to-list 'default-frame-alist '(alpha . (0.85 0.50)))
