@@ -1,7 +1,5 @@
 ; LOAD PATH
-(setq load-path (cons "~/.emacs.d/" load-path))
 (setq load-path (cons "~/.emacs.d/elisp/" load-path))
-;(setq load-path (cons "~/.emacs.d/elisp/color-theme-6.6.0" load-path))
 
 ; MELPA
 (require 'package) ;; You might already have this line
@@ -12,49 +10,68 @@
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize) ;; You might already have this line
 
-; hide menu-bar, tool-bar
-(if window-system (menu-bar-mode 1)(menu-bar-mode -1)(tool-bar-mode -1))
-
 ;; key bind
 (define-key global-map "\C-h" 'delete-backward-char)
 (define-key global-map "\C-x\C-h" 'help)
 (define-key global-map "\C-o" 'dabbrev-expand)
 (define-key global-map "\C-x\C-g" 'goto-line)
 (setq mac-command-key-is-meta t)
+(setq ns-command-modifier (quote meta))
+(setq ns-alternate-modifier (quote super))
 
-;; undo setting
+;; UTF-8
+(set-locale-environment nil)
+(set-language-environment 'Japanese)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-buffer-file-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(setq default-buffer-file-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+(setq file-name-coding-system 'utf-8)
+(set-clipboard-coding-system 'utf-8)
+(setq coding-system-for-read 'mule-utf-8)
+(setq coding-system-for-write 'mule-utf-8)
+
+; hide menu-bar, tool-bar
+(if window-system (menu-bar-mode 1)(menu-bar-mode -1)(tool-bar-mode -1))
+
+;; undo
 (setq undo-limit 100000)
 (setq undo-strong-limit 130000)
 
-;; setting
-(setq-default transient-mark-mode t)
+;; backup file
 (setq delete-auto-save-files t)
-(setq scroll-step 1)
 (setq backup-inhibited t)
-(setq default-tab-width 4)
+
+;;scroll
+(setq scroll-step 1)
+
+;; tab
 (setq indent-tabs-mode nil)
 (setq tab-width 4)
-(setq-default truncate-lines t)
-(blink-cursor-mode 0)
+
+;; new line code
+(setq eol-mnemonic-dos "(CRLF)")
+(setq eol-mnemonic-mac "(CR)")
+(setq eol-mnemonic-unix "(LF)")
+
+;; highlights set of braket
 (show-paren-mode 1)
 
+;; setting
+(setq-default transient-mark-mode t)
+(setq-default truncate-lines t)
+(blink-cursor-mode 0)
+(setq inhibit-startup-screen t)
+(setq initial-scratch-message "")
+
+;;　make transparent
+(add-to-list 'default-frame-alist '(alpha . (0.85 0.50)))
 
 ;; save the cursor position
 (require 'saveplace)
 (setq-default save-place t)
-
-;; skip start up screen
-(setq inhibit-startup-screen t)
-
-;; skip scratch buffer's message
-(setq initial-scratch-message "")
-
-;; input
-(setq default-input-method "MacOSX")
-
-;; change Comannd to Meta
-(setq ns-command-modifier (quote meta))
-(setq ns-alternate-modifier (quote super))
 
 ;; font lock
 (global-font-lock-mode t)
@@ -64,19 +81,7 @@
 (require 'tramp)
 (setq tramp-default-method "ssh")
 
-;; using UTF-8
-(set-language-environment 'Japanese)
-(set-terminal-coding-system 'utf-8)
-(setq file-name-coding-system 'utf-8)
-(set-clipboard-coding-system 'utf-8)
-(setq default-buffer-file-coding-system 'utf-8)
-(setq coding-system-for-read 'mule-utf-8-unix)
-(prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(set-buffer-file-coding-system 'utf-8-unix)
-
-;; line number
+;; line column number
 (require 'linum)
 (global-linum-mode t)
 (setq linum-format "%5d ")
@@ -97,14 +102,8 @@
   (color-theme-initialize)
   (color-theme-charcoal-black))
 
-;; workspace2
-(require 'workgroups2)
-
-(workgroups-mode 1) ; put this one at the bottom of .emacs
-
-
 ;; ruby mode
-(add-to-list 'load-path "~/site-lisp/ruby")
+(add-to-list 'load-path "elisp/ruby")
 (autoload 'ruby-mode "ruby-mode" "Mode for editing ruby source files" t)
 (setq auto-mode-alist (cons '("\\.rb$" . ruby-mode) auto-mode-alist))
 (setq interpreter-mode-alist (append '(("ruby" . ruby-mode)) interpreter-mode-alist))
