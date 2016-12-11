@@ -56,6 +56,10 @@
 (setq eol-mnemonic-mac "(CR)")
 (setq eol-mnemonic-unix "(LF)")
 
+;; trailing-whitespace
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(setq-default show-trailing-whitespace t)
+
 ;; highlights set of braket
 (show-paren-mode 1)
 
@@ -67,7 +71,7 @@
 (setq initial-scratch-message "")
 (setq ns-pop-up-frames nil)
 
-;;　make transparent
+;; make transparent
 (add-to-list 'default-frame-alist '(alpha . (0.85 0.50)))
 
 ;; save the cursor position
@@ -78,7 +82,7 @@
 (global-font-lock-mode t)
 (require 'font-lock)
 
-;; ssh 
+;; ssh
 (require 'tramp)
 (setq tramp-default-method "ssh")
 
@@ -130,3 +134,17 @@
 ;; yaml-mode
 (when (require 'yaml-mode nil t)
   (add-to-list 'auto-mode-alist '("¥¥.yml$" . yaml-mode)))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (ctags-update ctags linum-relative js3-mode f emms-info-mediainfo color-theme anaphora))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
