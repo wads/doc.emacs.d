@@ -1,14 +1,13 @@
 ; LOAD PATH
 (setq load-path (cons "~/.emacs.d/elisp/" load-path))
 
-; MELPA
-(require 'package) ;; You might already have this line
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
-(when (< emacs-major-version 24)
-  ;; For important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-(package-initialize) ;; You might already have this line
+; Package
+(require 'package)
+(package-initialize)
+(setq package-archives
+      '(("gnu" . "http://elpa.gnu.org/packages/")
+        ("melpa" . "http://melpa.org/packages/")
+        ("org" . "http://orgmode.org/elpa/")))
 
 ;; key bind
 (define-key global-map "\C-h" 'delete-backward-char)
@@ -107,6 +106,12 @@
   (color-theme-initialize)
   (color-theme-charcoal-black))
 
+;; workspace
+(with-eval-after-load "persp-mode-autoloads"
+  (setq wg-morph-on nil) ;; switch off animation
+  (setq persp-autokill-buffer-on-remove 'kill-weak)
+  (add-hook 'after-init-hook #'(lambda () (persp-mode 1))))
+
 ;; ruby mode
 (add-to-list 'load-path "elisp/ruby")
 (autoload 'ruby-mode "ruby-mode" "Mode for editing ruby source files" t)
@@ -127,7 +132,7 @@
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 
-;for js3-mode
+;;for js3-mode
 (autoload 'js3-mode "js3" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js3-mode))
 
@@ -139,7 +144,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(package-selected-packages
+   (quote
+    (perspective ctags-update ctags linum-relative js3-mode f emms-info-mediainfo color-theme anaphora))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
