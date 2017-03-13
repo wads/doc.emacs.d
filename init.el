@@ -3,11 +3,11 @@
 
 ; Package
 (require 'package)
-(package-initialize)
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("melpa" . "http://melpa.org/packages/")
         ("org" . "http://orgmode.org/elpa/")))
+(package-initialize)
 
 ;; key bind
 (define-key global-map "\C-h" 'delete-backward-char)
@@ -123,9 +123,29 @@
 (setq ruby-indent-level 2)
 (setq ruby-indent-tabs-mode nil)
 
-;; zencode
+;; web mode
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(setq-default indent-tabs-mode nil)
+(defun my-web-mode-hook ()
+  "Hooks for Web mode."
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+)
+(add-hook 'web-mode-hook  'my-web-mode-hook)
+
+
+;; zen code
+(require 'emmet-mode)
 (add-hook 'sgml-mode-hook 'emmet-mode)
 (add-hook 'css-mode-hook  'emmet-mode)
+(add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2)))
+(eval-after-load "emmet-mode"
+  '(define-key emmet-mode-keymap (kbd "C-j") nil))
+(keyboard-translate ?\C-i ?\H-i)
+(define-key emmet-mode-keymap (kbd "H-i") 'emmet-expand-line)
 
 ;; markdown-mode
 (autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
@@ -146,10 +166,15 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (perspective ctags-update ctags linum-relative js3-mode f emms-info-mediainfo color-theme anaphora))))
+    (web-mode emmet-mode typescript-mode editorconfig markdown-mode perspective ctags-update ctags linum-relative js3-mode f emms-info-mediainfo color-theme anaphora))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;; typescript-mode
+(require 'typescript-mode)
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
+(setq typescript-indent-level 2)

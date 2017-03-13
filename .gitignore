@@ -4,4 +4,5 @@ places
 tramp
 auto-save-list
 */history
-persp-confs/persp-auto-save
+persp-confs/persp-auto-save*
+*readme.txt
