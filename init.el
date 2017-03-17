@@ -32,7 +32,13 @@
 (setq coding-system-for-read 'mule-utf-8)
 (setq coding-system-for-write 'mule-utf-8)
 
-; hide menu-bar, tool-bar
+;; windmove-left
+(global-set-key (kbd "C-c <left>")  'windmove-left)
+(global-set-key (kbd "C-c <down>")  'windmove-down)
+(global-set-key (kbd "C-c <up>")    'windmove-up)
+(global-set-key (kbd "C-c <right>") 'windmove-right)
+
+;; hide menu-bar, tool-bar
 (if window-system (menu-bar-mode 1)(menu-bar-mode -1)(tool-bar-mode -1))
 
 ;; undo
@@ -166,7 +172,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (web-mode emmet-mode typescript-mode editorconfig markdown-mode perspective ctags-update ctags linum-relative js3-mode f emms-info-mediainfo color-theme anaphora))))
+    (yaml-mode web-mode emmet-mode typescript-mode editorconfig markdown-mode perspective ctags-update ctags linum-relative js3-mode f emms-info-mediainfo color-theme anaphora))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
