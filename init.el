@@ -142,7 +142,6 @@
 )
 (add-hook 'web-mode-hook  'my-web-mode-hook)
 
-
 ;; zen code
 (require 'emmet-mode)
 (add-hook 'sgml-mode-hook 'emmet-mode)
@@ -159,8 +158,9 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 
 ;;for js3-mode
-(autoload 'js3-mode "js3" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js3-mode))
+;;(autoload 'js3-mode "js3" nil t)
+;;(add-to-list 'auto-mode-alist '("\\.js$" . js3-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
 ;; yaml-mode
 (when (require 'yaml-mode nil t)
@@ -172,7 +172,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (yaml-mode web-mode emmet-mode typescript-mode editorconfig markdown-mode perspective ctags-update ctags linum-relative js3-mode f emms-info-mediainfo color-theme anaphora))))
+    (flycheck company-go golint go-mode js2-mode yaml-mode web-mode emmet-mode typescript-mode editorconfig markdown-mode perspective ctags-update ctags linum-relative js3-mode f emms-info-mediainfo color-theme anaphora))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -184,3 +184,21 @@
 (require 'typescript-mode)
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 (setq typescript-indent-level 2)
+(put 'narrow-to-region 'disabled nil)
+
+
+;; go-mode
+(add-to-list 'exec-path (expand-file-name "/usr/local/go/bin/"))
+(add-to-list 'exec-path (expand-file-name "/Users/wads/project/go/bin/"))
+(require 'go-mode)
+(require 'company-go)
+(add-hook 'go-mode-hook 'company-mode)
+(add-hook 'go-mode-hook 'flycheck-mode)
+(add-hook 'go-mode-hook (lambda()
+           (add-hook 'before-save-hook' 'gofmt-before-save)
+           (local-set-key (kbd "M-.") 'godef-jump)
+           (set (make-local-variable 'company-backends) '(company-go))
+           (company-mode)
+           (setq indent-tabs-mode nil)
+           (setq c-basic-offset 4)
+           (setq tab-width 4)))
