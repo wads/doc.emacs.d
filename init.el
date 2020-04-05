@@ -189,16 +189,23 @@
 
 ;; go-mode
 (add-to-list 'exec-path (expand-file-name "/usr/local/go/bin/"))
-(add-to-list 'exec-path (expand-file-name "/Users/wads/project/go/bin/"))
+(add-to-list 'exec-path (expand-file-name "~/project/go/bin/"))
+
 (require 'go-mode)
 (require 'company-go)
+
+(setq gofmt-command "goimports")
 (add-hook 'go-mode-hook 'company-mode)
 (add-hook 'go-mode-hook 'flycheck-mode)
-(add-hook 'go-mode-hook (lambda()
-           (add-hook 'before-save-hook' 'gofmt-before-save)
-           (local-set-key (kbd "M-.") 'godef-jump)
-           (set (make-local-variable 'company-backends) '(company-go))
-           (company-mode)
-           (setq indent-tabs-mode nil)
-           (setq c-basic-offset 4)
-           (setq tab-width 4)))
+(add-hook 'go-mode-hook
+          (lambda()
+            (let ((envs '("GOROOT" "GOPATH")))
+              (exec-path-from-shell-copy-envs envs))
+
+            (add-hook 'before-save-hook 'gofmt-before-save)
+            (local-set-key (kbd "M-.") 'godef-jump)
+            (set (make-local-variable 'company-backends) '(company-go))
+            (company-mode)
+            (setq indent-tabs-mode nil)
+            (setq c-basic-offset 4)
+            (setq tab-width 4)))
