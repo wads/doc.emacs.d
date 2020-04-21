@@ -9,6 +9,21 @@
         ("org" . "http://orgmode.org/elpa/")))
 (package-initialize)
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (terraform-mode org flycheck company-go golint go-mode js2-mode yaml-mode web-mode emmet-mode typescript-mode editorconfig markdown-mode perspective ctags-update ctags linum-relative js3-mode f emms-info-mediainfo color-theme anaphora))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
 ;; key bind
 (define-key global-map "\C-h" 'delete-backward-char)
 (define-key global-map "\C-x\C-h" 'help)
@@ -165,20 +180,6 @@
 ;; yaml-mode
 (when (require 'yaml-mode nil t)
   (add-to-list 'auto-mode-alist '("¥¥.yml$" . yaml-mode)))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (flycheck company-go golint go-mode js2-mode yaml-mode web-mode emmet-mode typescript-mode editorconfig markdown-mode perspective ctags-update ctags linum-relative js3-mode f emms-info-mediainfo color-theme anaphora))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 
 ;; typescript-mode
 (require 'typescript-mode)
@@ -199,9 +200,6 @@
 (add-hook 'go-mode-hook 'flycheck-mode)
 (add-hook 'go-mode-hook
           (lambda()
-            (let ((envs '("GOROOT" "GOPATH")))
-              (exec-path-from-shell-copy-envs envs))
-
             (add-hook 'before-save-hook 'gofmt-before-save)
             (local-set-key (kbd "M-.") 'godef-jump)
             (set (make-local-variable 'company-backends) '(company-go))
