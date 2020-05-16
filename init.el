@@ -24,14 +24,31 @@
  ;; If there is more than one, they won't work right.
  )
 
+;; appearance
+(when (display-graphic-p)
+  (tool-bar-mode -1))
+
+(when (memq window-system '(mac ns))
+  (setq initial-frame-alist
+        (append
+         '((ns-transparent-titlebar . t)
+           (vertical-scroll-bars . nil)
+           (ns-appearance . dark)
+           (internal-border-width . 0)))))
+(setq default-frame-alist initial-frame-alist)
+
 ;; key bind
+(setq mac-command-key-is-meta t)
+(setq ns-command-modifier (quote meta))
+(setq ns-alternate-modifier (quote super))
 (define-key global-map "\C-h" 'delete-backward-char)
 (define-key global-map "\C-x\C-h" 'help)
 (define-key global-map "\C-o" 'dabbrev-expand)
 (define-key global-map "\C-x\C-g" 'goto-line)
-(setq mac-command-key-is-meta t)
-(setq ns-command-modifier (quote meta))
-(setq ns-alternate-modifier (quote super))
+(global-set-key (kbd "C-c <left>")  'windmove-left)
+(global-set-key (kbd "C-c <down>")  'windmove-down)
+(global-set-key (kbd "C-c <up>")    'windmove-up)
+(global-set-key (kbd "C-c <right>") 'windmove-right)
 
 ;; UTF-8
 (set-locale-environment nil)
@@ -46,12 +63,6 @@
 (set-clipboard-coding-system 'utf-8)
 (setq coding-system-for-read 'mule-utf-8)
 (setq coding-system-for-write 'mule-utf-8)
-
-;; windmove-left
-(global-set-key (kbd "C-c <left>")  'windmove-left)
-(global-set-key (kbd "C-c <down>")  'windmove-down)
-(global-set-key (kbd "C-c <up>")    'windmove-up)
-(global-set-key (kbd "C-c <right>") 'windmove-right)
 
 ;; hide menu-bar, tool-bar
 (if window-system (menu-bar-mode 1)(menu-bar-mode -1)(tool-bar-mode -1))
@@ -133,6 +144,43 @@
   (setq persp-autokill-buffer-on-remove 'kill-weak)
   (add-hook 'after-init-hook #'(lambda () (persp-mode 1))))
 
+;; window resizer
+(defun window-resizer ()
+  "Control window size and position."
+  (interactive)
+  (let ((window-obj (selected-window))
+        (current-width (window-width))
+        (current-height (window-height))
+        (dx (if (= (nth 0 (window-edges)) 0) 1
+              -1))
+        (dy (if (= (nth 1 (window-edges)) 0) 1
+              -1))
+        action c)
+    (catch 'end-flag
+      (while t
+        (setq action
+              (read-key-sequence-vector (format "size[%dx%d]"
+                                                (window-width)
+                                                (window-height))))
+        (setq c (aref action 0))
+        (cond ((= c ?l)
+               (enlarge-window-horizontally dx))
+              ((= c ?h)
+               (shrink-window-horizontally dx))
+              ((= c ?j)
+               (enlarge-window dy))
+              ((= c ?k)
+               (shrink-window dy))
+              ;; otherwise
+              (t
+               (let ((last-command-char (aref action 0))
+                     (command (key-binding action)))
+                 (when command
+                   (call-interactively command)))
+               (message "Quit")
+               (throw 'end-flag t)))))))
+(global-set-key "\C-c\C-r" 'window-resizer)
+
 ;; ruby mode
 (add-to-list 'load-path "elisp/ruby")
 (autoload 'ruby-mode "ruby-mode" "Mode for editing ruby source files" t)
@@ -187,6 +235,13 @@
 (setq typescript-indent-level 2)
 (put 'narrow-to-region 'disabled nil)
 
+;; org-mode
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+(add-hook 'org-mode-hook 'org-indent-mode)
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
 
 ;; go-mode
 (add-to-list 'exec-path (expand-file-name "/usr/local/go/bin/"))
